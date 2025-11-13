@@ -101,6 +101,72 @@ def create_dataframe_with_duplicates():
     return pd.concat([df, df.iloc[[0]]], ignore_index=True)
 
 
+def create_aggregated_complaints_data():
+    """Create aggregated complaints data for integration testing."""
+    return pd.DataFrame({
+        'neighborhood': ['East Village', 'Williamsburg', 'Astoria', 'Park Slope', 'Long Island City'],
+        'year': [2024, 2024, 2024, 2024, 2024],
+        'month': [1, 1, 1, 1, 1],
+        'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking', 'Street Condition', 'Water System'],
+        'complaint_count': [150, 89, 234, 45, 78],
+        'median_resolution_time_hours': [24.5, 72.0, 12.5, 48.0, 36.0],
+        'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS', 'BROOKLYN', 'QUEENS']
+    })
+
+
+def create_reshaped_rent_data():
+    """Create reshaped rent data for integration testing."""
+    return pd.DataFrame({
+        'neighborhood': ['East Village', 'Williamsburg', 'Astoria', 'Park Slope', 'Long Island City', 'SoHo'],
+        'year': [2024, 2024, 2024, 2024, 2024, 2024],
+        'month': [1, 1, 1, 1, 1, 1],
+        'median_rent': [3000.0, 2800.0, 2400.0, 3200.0, 2600.0, 4500.0]
+    })
+
+
+def create_final_integrated_dataset():
+    """Create a final integrated dataset for testing."""
+    return pd.DataFrame({
+        'neighborhood': ['East Village', 'Williamsburg', 'Astoria', 'Park Slope'],
+        'year': [2024, 2024, 2024, 2024],
+        'month': [1, 1, 1, 1],
+        'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking', 'Street Condition'],
+        'complaint_count': [150, 89, 234, 45],
+        'median_resolution_time_hours': [24.5, 72.0, 12.5, 48.0],
+        'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS', 'BROOKLYN'],
+        'median_rent': [3000.0, 2800.0, 2400.0, 3200.0]
+    })
+
+
+def create_dataset_with_data_quality_issues():
+    """Create a dataset with various data quality issues for validation testing."""
+    return pd.DataFrame({
+        'neighborhood': ['East Village', None, 'Astoria', 'Park Slope', 'Duplicate'],
+        'year': [2024, 2024, 2023, 2026, 2024],  # Invalid years
+        'month': [1, 0, 13, 1, 1],  # Invalid months
+        'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking', 'Street Condition', 'Noise - Residential'],
+        'complaint_count': [150, -5, 234, 45, 150],  # Negative count
+        'median_resolution_time_hours': [24.5, -10.0, 12.5, 48.0, 24.5],  # Negative resolution time
+        'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS', 'BROOKLYN', 'MANHATTAN'],
+        'median_rent': [3000.0, None, 2400.0, 3200.0, 3000.0]  # Missing rent data
+    })
+
+
+def create_dataset_for_optimization():
+    """Create a dataset suitable for data type optimization testing."""
+    n_rows = 200
+    
+    return pd.DataFrame({
+        'neighborhood': (['East Village'] * 100 + ['Williamsburg'] * 100),  # High repetition - categorical
+        'complaint_type': (['Noise'] * 150 + ['Heat'] * 50),  # High repetition - categorical  
+        'year': [2024] * n_rows,  # Small integer range
+        'month': (list(range(1, 13)) * 17)[:n_rows],  # Small integer range, repeating pattern
+        'complaint_count': list(range(1, n_rows + 1)),  # Integer values 1-200
+        'median_rent': [float(x * 10.5) for x in range(1, n_rows + 1)],  # Float values
+        'resolution_hours': [x / 2.0 for x in range(1, n_rows + 1)]  # Float values
+    })
+
+
 def create_datetime_311_dataframe():
     """Create a 311 DataFrame with datetime columns for transformer testing."""
     return pd.DataFrame({
@@ -193,6 +259,36 @@ def dirty_rent_data():
 def dataframe_with_duplicates():
     """Fixture providing DataFrame with actual duplicate rows."""
     return create_dataframe_with_duplicates()
+
+
+@pytest.fixture
+def aggregated_complaints_data():
+    """Fixture providing aggregated complaints data for integration testing."""
+    return create_aggregated_complaints_data()
+
+
+@pytest.fixture
+def reshaped_rent_data():
+    """Fixture providing reshaped rent data for integration testing."""
+    return create_reshaped_rent_data()
+
+
+@pytest.fixture
+def final_integrated_dataset():
+    """Fixture providing final integrated dataset for testing."""
+    return create_final_integrated_dataset()
+
+
+@pytest.fixture
+def dataset_with_data_quality_issues():
+    """Fixture providing dataset with data quality issues for validation testing."""
+    return create_dataset_with_data_quality_issues()
+
+
+@pytest.fixture
+def dataset_for_optimization():
+    """Fixture providing dataset suitable for optimization testing."""
+    return create_dataset_for_optimization()
 
 
 @pytest.fixture

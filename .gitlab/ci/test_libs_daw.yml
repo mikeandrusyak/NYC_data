@@ -29,7 +29,13 @@ test_data_transformer:
     - echo "Testing DataTransformer..."
     - pytest tests/test_data_transformer.py -v
 
-# test_data_integrator:
+test_data_integrator:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataIntegrator..."
+    - pytest tests/test_data_integrator.py -v
+
+# test_pipeline:
 #   <<: *libs_daw_test
 #   script:
 #     - echo "Testing DataIntegrator..."
