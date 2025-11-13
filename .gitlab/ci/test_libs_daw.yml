@@ -1,0 +1,42 @@
+# Unit tests for libs_daw components
+
+# Common template for libs_daw tests
+.libs_daw_test_template: &libs_daw_test
+  image: python:3.12
+  stage: test
+  before_script:
+    - pip install -r requirements.txt
+    - export PYTHONPATH="$PWD:$PYTHONPATH"
+
+# Test DataLoader component
+test_data_loader:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataLoader..."
+    - pytest tests/test_data_loader.py -v
+
+# TODO: Add more component tests when ready
+test_data_cleaner:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataCleaner..."
+    - pytest tests/test_data_cleaner.py -v
+
+# DataTransformer tests - ACTIVE
+test_data_transformer:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataTransformer..."
+    - pytest tests/test_data_transformer.py -v
+
+test_data_integrator:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataIntegrator..."
+    - pytest tests/test_data_integrator.py -v
+
+test_pipeline:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing Pipeline integration..."
+    - pytest tests/test_pipeline.py -v
