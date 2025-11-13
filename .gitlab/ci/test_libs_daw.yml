@@ -35,16 +35,8 @@ test_data_integrator:
     - echo "Testing DataIntegrator..."
     - pytest tests/test_data_integrator.py -v
 
-# test_pipeline:
-#   <<: *libs_daw_test
-#   script:
-#     - echo "Testing DataIntegrator..."
-#     - pytest tests/test_data_integrator.py --cov=libs_daw.data_integrator --cov-report=term
-#   coverage: '/TOTAL.*\s+(\d+%)$/'
-
-# test_pipeline:
-#   <<: *libs_daw_test
-#   script:
-#     - echo "Testing Pipeline integration..."
-#     - pytest tests/test_pipeline.py --cov=libs_daw.pipeline --cov-report=term
-#   coverage: '/TOTAL.*\s+(\d+%)$/'
+test_pipeline:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing Pipeline integration..."
+    - pytest tests/test_pipeline.py -v

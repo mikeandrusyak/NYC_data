@@ -167,6 +167,79 @@ def create_dataset_for_optimization():
     })
 
 
+def create_pipeline_test_data():
+    """Create comprehensive test data for pipeline testing."""
+    return {
+        'raw_nyc_311': pd.DataFrame({
+            'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking'],
+            'created_date': ['2024-01-01 10:30:00', '2024-01-02 14:15:00', '2024-01-03 09:45:00'],
+            'closed_date': ['2024-01-02 12:00:00', None, '2024-01-03 15:30:00'],
+            'incident_zip': ['10001', '10002', '10003'],
+            'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS'],
+            'latitude': [40.7128, 40.6782, 40.7282],
+            'longitude': [-74.0060, -73.9442, -73.7949],
+            'city': ['NEW YORK', 'NEW YORK', 'NEW YORK'],
+            'status': ['Closed', 'Open', 'Closed'],
+            'agency': ['NYPD', 'HPD', 'NYPD']
+        }),
+        'raw_rent': pd.DataFrame({
+            'areaname': ['East Village', 'Williamsburg', 'Astoria'],
+            'areaid': [1, 2, 3],
+            'year': [2024, 2024, 2024],
+            '2024-01': [3000, 2800, 2400],
+            '2024-02': [3050, 2850, 2450]
+        }),
+        'uhf_mapping': {
+            "data": [
+                {"uhf_neigh": "East Village", "zipcode": "10001"},
+                {"uhf_neigh": "Williamsburg", "zipcode": "10002"},
+                {"uhf_neigh": "Astoria", "zipcode": "10003"}
+            ]
+        },
+        'manual_mapping': {
+            "East Village": "East Village - LES",
+            "Williamsburg": "Williamsburg - North Brooklyn",
+            "Astoria": "Astoria - Queens"
+        }
+    }
+
+
+def create_pipeline_intermediate_data():
+    """Create intermediate data states for pipeline testing."""
+    return {
+        'cleaned_nyc_311': pd.DataFrame({
+            'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking'],
+            'created_date': pd.to_datetime(['2024-01-01 10:30:00', '2024-01-02 14:15:00', '2024-01-03 09:45:00']),
+            'closed_date': pd.to_datetime(['2024-01-02 12:00:00', None, '2024-01-03 15:30:00']),
+            'incident_zip': ['10001', '10002', '10003'],
+            'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS'],
+            'city': ['NEW YORK', 'NEW YORK', 'NEW YORK']
+        }),
+        'cleaned_rent': pd.DataFrame({
+            'areaname': ['East Village', 'Williamsburg', 'Astoria'],
+            'areaid': [1, 2, 3],
+            'year': [2024, 2024, 2024],
+            '2024-01': [3000, 2800, 2400],
+            '2024-02': [3050, 2850, 2450]
+        }),
+        'transformed_nyc_311': pd.DataFrame({
+            'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking'],
+            'neighborhood': ['East Village', 'Williamsburg', 'Astoria'],
+            'year': [2024, 2024, 2024],
+            'month': [1, 1, 1],
+            'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS'],
+            'created_date': pd.to_datetime(['2024-01-01 10:30:00', '2024-01-02 14:15:00', '2024-01-03 09:45:00']),
+            'resolution_time_hours': [25.5, None, 29.75]
+        }),
+        'transformed_rent': pd.DataFrame({
+            'neighborhood': ['East Village - LES', 'Williamsburg - North Brooklyn', 'Astoria - Queens'],
+            'year': [2024, 2024, 2024],
+            'month': [1, 1, 1],
+            'median_rent': [3000.0, 2800.0, 2400.0]
+        })
+    }
+
+
 def create_datetime_311_dataframe():
     """Create a 311 DataFrame with datetime columns for transformer testing."""
     return pd.DataFrame({
@@ -289,6 +362,18 @@ def dataset_with_data_quality_issues():
 def dataset_for_optimization():
     """Fixture providing dataset suitable for optimization testing."""
     return create_dataset_for_optimization()
+
+
+@pytest.fixture
+def pipeline_test_data():
+    """Fixture providing comprehensive test data for pipeline testing."""
+    return create_pipeline_test_data()
+
+
+@pytest.fixture
+def pipeline_intermediate_data():
+    """Fixture providing intermediate data states for pipeline testing."""
+    return create_pipeline_intermediate_data()
 
 
 @pytest.fixture
