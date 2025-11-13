@@ -51,7 +51,7 @@ class DataLoader:
         print(f"Loaded median rent data: {df.shape}")
         return df
     
-    def load_uhf_mapping(self, file_path: str = "nyc_uhf_zipcodes.json") -> Dict[str, Any]:
+    def load_uhf_mapping(self, file_path: str = "mappings/nyc_uhf_zipcodes.json") -> Dict[str, Any]:
         """
         Load ZIP code to neighborhood mapping.
         
@@ -67,7 +67,7 @@ class DataLoader:
         print(f"Loaded UHF mapping data")
         return uhf_data
     
-    def load_manual_mapping(self, file_path: str = "manual_map.json") -> Dict[str, str]:
+    def load_manual_mapping(self, file_path: str = "mappings/manual_map.json") -> Dict[str, str]:
         """
         Load manual mapping for area names to neighborhoods.
         
