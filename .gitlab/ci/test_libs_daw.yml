@@ -1,0 +1,46 @@
+# Unit tests for libs_daw components
+
+# Common template for libs_daw tests
+.libs_daw_test_template: &libs_daw_test
+  image: python:3.12
+  stage: test
+  before_script:
+    - pip install -r requirements.txt
+    - export PYTHONPATH="$PWD:$PYTHONPATH"
+
+# Test DataLoader component
+test_data_loader:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataLoader..."
+    - pytest tests/test_data_loader.py --cov=libs_daw.data_loader --cov-report=term
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+
+# TODO: Add more component tests when ready
+# test_data_cleaner:
+#   <<: *libs_daw_test
+#   script:
+#     - echo "Testing DataCleaner..."
+#     - pytest tests/test_data_cleaner.py --cov=libs_daw.data_cleaner --cov-report=term
+#   coverage: '/TOTAL.*\s+(\d+%)$/'
+
+# test_data_transformer:
+#   <<: *libs_daw_test
+#   script:
+#     - echo "Testing DataTransformer..."
+#     - pytest tests/test_data_transformer.py --cov=libs_daw.data_transformer --cov-report=term
+#   coverage: '/TOTAL.*\s+(\d+%)$/'
+
+# test_data_integrator:
+#   <<: *libs_daw_test
+#   script:
+#     - echo "Testing DataIntegrator..."
+#     - pytest tests/test_data_integrator.py --cov=libs_daw.data_integrator --cov-report=term
+#   coverage: '/TOTAL.*\s+(\d+%)$/'
+
+# test_pipeline:
+#   <<: *libs_daw_test
+#   script:
+#     - echo "Testing Pipeline integration..."
+#     - pytest tests/test_pipeline.py --cov=libs_daw.pipeline --cov-report=term
+#   coverage: '/TOTAL.*\s+(\d+%)$/'

@@ -1,6 +1,7 @@
 stages:
   - test
 
+# Data quality tests (import-tests and other data validation)
 test_data_quality:
   stage: test
   image: python:3.12
@@ -8,4 +9,5 @@ test_data_quality:
     - pip install --upgrade pip
     - pip install -r requirements.txt
   script:
-    - pytest -v
+    - echo "Running data quality and import tests..."
+    - pytest tests/import-tests/ -v
