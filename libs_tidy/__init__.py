@@ -1,1 +1,1 @@
-from .distribution import test_imported_data_distribution_light, plot_distribution
+from .distribution import plot_distribution
