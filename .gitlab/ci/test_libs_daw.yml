@@ -22,12 +22,12 @@ test_data_cleaner:
     - echo "Testing DataCleaner..."
     - pytest tests/test_data_cleaner.py -v
 
-# test_data_transformer:
-#   <<: *libs_daw_test
-#   script:
-#     - echo "Testing DataTransformer..."
-#     - pytest tests/test_data_transformer.py --cov=libs_daw.data_transformer --cov-report=term
-#   coverage: '/TOTAL.*\s+(\d+%)$/'
+# DataTransformer tests - ACTIVE
+test_data_transformer:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataTransformer..."
+    - pytest tests/test_data_transformer.py -v
 
 # test_data_integrator:
 #   <<: *libs_daw_test

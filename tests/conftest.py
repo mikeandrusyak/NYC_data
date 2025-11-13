@@ -101,6 +101,57 @@ def create_dataframe_with_duplicates():
     return pd.concat([df, df.iloc[[0]]], ignore_index=True)
 
 
+def create_datetime_311_dataframe():
+    """Create a 311 DataFrame with datetime columns for transformer testing."""
+    return pd.DataFrame({
+        'complaint_type': ['Noise - Residential', 'Heat/Hot Water', 'Illegal Parking'],
+        'created_date': pd.to_datetime(['2024-01-01 10:30:00', '2024-02-15 14:15:00', '2024-03-20 09:45:00']),
+        'closed_date': pd.to_datetime(['2024-01-02 12:00:00', '2024-02-17 16:30:00', None]),
+        'incident_zip': ['10001', '10002', '10003'],
+        'borough': ['MANHATTAN', 'BROOKLYN', 'QUEENS'],
+        'status': ['Closed', 'Closed', 'Open']
+    })
+
+
+def create_sample_uhf_data():
+    """Create sample UHF data structure for testing."""
+    return {
+        "Manhattan": [
+            {
+                "neighborhood": "East Village",
+                "zip_codes": ["10001", "10003", "10009"]
+            },
+            {
+                "neighborhood": "Upper West Side",
+                "zip_codes": ["10024", "10025"]
+            }
+        ],
+        "Brooklyn": [
+            {
+                "neighborhood": "Williamsburg", 
+                "zip_codes": ["11211", "11206"]
+            },
+            {
+                "neighborhood": "Park Slope",
+                "zip_codes": ["11215", "11217"]
+            }
+        ]
+    }
+
+
+def create_rent_data_for_transform():
+    """Create rent DataFrame for transformation testing."""
+    return pd.DataFrame({
+        'areaname': ['East Village', 'Williamsburg', 'Park Slope', 'Upper West Side'],
+        'areaid': [1, 2, 3, 4],
+        'year': [2024, 2024, 2024, 2024],
+        '2024-01': [3000, 2800, 3200, 3500],
+        '2024-02': [3050, 2850, 3250, 3550],
+        '2024-03': [3100, 2900, 3300, 3600],
+        'neighborhood': [None, None, None, None]  # Will be filled by transformation
+    })
+
+
 # Fixtures for mock data
 @pytest.fixture
 def sample_nyc_311_data():
@@ -142,6 +193,24 @@ def dirty_rent_data():
 def dataframe_with_duplicates():
     """Fixture providing DataFrame with actual duplicate rows."""
     return create_dataframe_with_duplicates()
+
+
+@pytest.fixture
+def datetime_311_data():
+    """Fixture providing 311 data with datetime columns."""
+    return create_datetime_311_dataframe()
+
+
+@pytest.fixture
+def sample_uhf_data():
+    """Fixture providing sample UHF data structure."""
+    return create_sample_uhf_data()
+
+
+@pytest.fixture
+def rent_data_for_transform():
+    """Fixture providing rent data for transformation testing."""
+    return create_rent_data_for_transform()
 
 
 # Legacy fixture for backward compatibility
