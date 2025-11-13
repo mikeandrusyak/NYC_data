@@ -16,12 +16,10 @@ else ifeq ($(UNAME_S),Darwin)
 else
 	OS := windows
 	SHELL := powershell.exe
-	.SHELLFLAGS := -NoProfile -ExecutionPolicy Bypass -Command
+	SHELLFLAGS := -NoProfile -ExecutionPolicy Bypass -Command
 endif
 
 ifeq ($(OS), windows)
-
-Write-Host "This is Windows";
 
 install-python-version:
 	if (Get-Command pyenv -ErrorAction SilentlyContinue) { \
