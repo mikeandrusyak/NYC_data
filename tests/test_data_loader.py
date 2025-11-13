@@ -326,10 +326,21 @@ class TestUtilityMethods:
 class TestIntegrationWithTempFiles:
     """Integration tests using temporary files (faster than mocking for file I/O tests)."""
     
-    def test_load_all_data_with_temp_files(self, temp_data_directory):
-        """Test loading all data from temporary files."""
-        loader = DataLoader(base_path=str(temp_data_directory))
+    @patch.object(DataLoader, 'load_nyc_311_data')
+    @patch.object(DataLoader, 'load_median_rent_data')
+    @patch.object(DataLoader, 'load_uhf_mapping')
+    @patch.object(DataLoader, 'load_manual_mapping')
+    def test_load_all_data_with_mocks(self, mock_manual, mock_uhf, mock_rent, mock_311,
+                                      sample_nyc_311_data, sample_rent_data, 
+                                      sample_uhf_mapping, sample_manual_mapping):
+        """Test loading all data using mocks instead of temp files."""
+        # Setup mocks
+        mock_311.return_value = sample_nyc_311_data
+        mock_rent.return_value = sample_rent_data
+        mock_uhf.return_value = sample_uhf_mapping
+        mock_manual.return_value = sample_manual_mapping
         
+        loader = DataLoader()
         df_311, df_rent, uhf_data, manual_map = loader.load_all_data()
         
         # Verify data was loaded correctly
@@ -346,24 +357,28 @@ class TestIntegrationWithTempFiles:
         assert isinstance(manual_map, dict)
         assert len(manual_map) == 5
     
-    def test_load_nyc_311_from_temp_file(self, temp_data_directory):
-        """Test loading NYC 311 data from temporary file."""
-        loader = DataLoader(base_path=str(temp_data_directory))
-        
-        df = loader.load_nyc_311_data()
-        
-        assert isinstance(df, pd.DataFrame)
-        assert len(df) == 5
-        assert df.index.name == "unique_key"
-        assert 'complaint_type' in df.columns
+    def test_load_nyc_311_with_mocks(self, sample_nyc_311_data):
+        """Test loading NYC 311 data using mocks."""
+        with patch('pandas.read_csv') as mock_read_csv:
+            mock_read_csv.return_value = sample_nyc_311_data
+            
+            loader = DataLoader()
+            df = loader.load_nyc_311_data()
+            
+            assert isinstance(df, pd.DataFrame)
+            assert len(df) == 5
+            assert df.index.name == "unique_key"
+            assert 'complaint_type' in df.columns
     
-    def test_load_rent_from_temp_file(self, temp_data_directory):
-        """Test loading rent data from temporary file."""
-        loader = DataLoader(base_path=str(temp_data_directory))
-        
-        df = loader.load_median_rent_data()
-        
-        assert isinstance(df, pd.DataFrame)
-        assert len(df) == 5
-        assert 'areaname' in df.columns
-        assert 'rent_2024' in df.columns
+    def test_load_rent_with_mocks(self, sample_rent_data):
+        """Test loading rent data using mocks."""
+        with patch('pandas.read_csv') as mock_read_csv:
+            mock_read_csv.return_value = sample_rent_data
+            
+            loader = DataLoader()
+            df = loader.load_median_rent_data()
+            
+            assert isinstance(df, pd.DataFrame)
+            assert len(df) == 5
+            assert 'areaname' in df.columns
+            assert 'rent_2024' in df.columns

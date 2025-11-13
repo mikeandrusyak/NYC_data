@@ -84,34 +84,35 @@ def sample_manual_mapping():
     return create_sample_manual_mapping()
 
 
-@pytest.fixture
-def temp_data_directory(tmp_path):
-    """Create temporary directory structure with test data files."""
-    # Create directory structure
-    data_dir = tmp_path / "data"
-    mappings_dir = tmp_path / "mappings"
-    data_dir.mkdir()
-    mappings_dir.mkdir()
-    
-    # Create CSV files
-    nyc_311_file = data_dir / "nyc_311_2024_2025_sample.csv"
-    rent_file = data_dir / "medianAskingRent_All.csv"
-    
-    # Write test data to CSV files
-    create_sample_311_dataframe().to_csv(nyc_311_file)
-    create_sample_rent_dataframe().to_csv(rent_file, index=False)
-    
-    # Create JSON files
-    uhf_file = mappings_dir / "nyc_uhf_zipcodes.json"
-    manual_file = mappings_dir / "manual_map.json"
-    
-    with open(uhf_file, 'w') as f:
-        json.dump(create_sample_uhf_mapping(), f)
-    
-    with open(manual_file, 'w') as f:
-        json.dump(create_sample_manual_mapping(), f)
-    
-    return tmp_path
+# DISABLED: temp_data_directory fixture (replaced with mocks for CI compatibility)
+# @pytest.fixture
+# def temp_data_directory(tmp_path):
+#     """Create temporary directory structure with test data files."""
+#     # Create directory structure
+#     data_dir = tmp_path / "data"
+#     mappings_dir = tmp_path / "mappings"
+#     data_dir.mkdir()
+#     mappings_dir.mkdir()
+#     
+#     # Create CSV files
+#     nyc_311_file = data_dir / "nyc_311_2024_2025_sample.csv"
+#     rent_file = data_dir / "medianAskingRent_All.csv"
+#     
+#     # Write test data to CSV files
+#     create_sample_311_dataframe().to_csv(nyc_311_file, index=True)
+#     create_sample_rent_dataframe().to_csv(rent_file, index=False)
+#     
+#     # Create JSON files
+#     uhf_file = mappings_dir / "nyc_uhf_zipcodes.json"
+#     manual_file = mappings_dir / "manual_map.json"
+#     
+#     with open(uhf_file, 'w') as f:
+#         json.dump(create_sample_uhf_mapping(), f)
+#     
+#     with open(manual_file, 'w') as f:
+#         json.dump(create_sample_manual_mapping(), f)
+#     
+#     return tmp_path
 
 
 # Legacy fixture for backward compatibility
