@@ -141,5 +141,23 @@ class NYCDataPipeline:
         final_dataset = self.integrator.create_final_dataset(
             complaints_aggregated, rent_reshaped
         )
+        
+        # Optimize data types for memory efficiency
+        print("\n=== DATA TYPE OPTIMIZATION ===")
+        final_dataset = self.integrator.optimize_data_types(final_dataset)
+        
+        # Validate data quality
+        print("\n=== DATA QUALITY VALIDATION ===")
+        self.integrator.print_validation_results(final_dataset)
+        
+        # Print dataset summary
+        print("\n=== DATASET SUMMARY ===")
+        summary = self.integrator.get_dataset_summary(final_dataset)
+        for key, value in summary.items():
+            print(f"{key.replace('_', ' ').title()}: {value}")
+        
+        # Export dataset
+        output_path = "data/final_dataset.csv"
+        self.integrator.export_dataset(final_dataset, output_path)
 
         return final_dataset
