@@ -171,7 +171,7 @@ class DataTransformer:
             pd.DataFrame: Aggregated complaints data
         """
         if group_columns is None:
-            group_columns = ['neighborhood', 'complaint_type', 'year', 'month']
+            group_columns = ['neighborhood', 'borough', 'complaint_type', 'year', 'month']
         
         complaints_aggregated = df.groupby(group_columns).agg({
             'resolution_time_hours': ['count', 'median']
@@ -184,8 +184,8 @@ class DataTransformer:
 
         # Sort by neighborhood, year, month, and complaint count
         complaints_aggregated = complaints_aggregated.sort_values(
-            by=['neighborhood', 'year', 'month', 'complaint_count'], 
-            ascending=[True, True, True, False]
+            by=['borough', 'neighborhood', 'year', 'month', 'complaint_count'], 
+            ascending=[True, True, True, True, False]
         )
 
         print(f"Aggregated complaints data shape: {complaints_aggregated.shape}")
