@@ -13,16 +13,14 @@ test_data_loader:
   <<: *libs_daw_test
   script:
     - echo "Testing DataLoader..."
-    - pytest tests/test_data_loader.py --cov=libs_daw.data_loader --cov-report=term
-  coverage: '/TOTAL.*\s+(\d+%)$/'
+    - pytest tests/test_data_loader.py -v
 
 # TODO: Add more component tests when ready
-# test_data_cleaner:
-#   <<: *libs_daw_test
-#   script:
-#     - echo "Testing DataCleaner..."
-#     - pytest tests/test_data_cleaner.py --cov=libs_daw.data_cleaner --cov-report=term
-#   coverage: '/TOTAL.*\s+(\d+%)$/'
+test_data_cleaner:
+  <<: *libs_daw_test
+  script:
+    - echo "Testing DataCleaner..."
+    - pytest tests/test_data_cleaner.py -v
 
 # test_data_transformer:
 #   <<: *libs_daw_test
