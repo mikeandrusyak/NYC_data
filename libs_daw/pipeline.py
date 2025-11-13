@@ -157,7 +157,7 @@ class NYCDataPipeline:
             print(f"{key.replace('_', ' ').title()}: {value}")
         
         # Export dataset
-        output_path = "data/final_dataset.csv"
+        output_path = "data/data_snapshot_for_gdv.csv"
         self.integrator.export_dataset(final_dataset, output_path)
 
         return final_dataset
