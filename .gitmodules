@@ -1,0 +1,3 @@
+[submodule "gdv/mykhailo"]
+	path = gdv/mykhailo
+	url = https://gitlab.fhnw.ch/ds-data-visualization/ivi_gdv_van/hs25/mykhailo-andrusiak/gdv.git
