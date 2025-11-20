@@ -40,3 +40,11 @@ test_pipeline:
   script:
     - echo "Testing Pipeline integration..."
     - pytest tests/test_pipeline.py -v
+
+# Coverage summary for all libs_daw modules
+test_coverage_summary:
+  <<: *libs_daw_test
+  script:
+    - echo "📊 libs_daw Coverage Summary:"
+    - pytest --cov=libs_daw --cov-report=term-missing -v
+  coverage: '/TOTAL.+?(\d+%)$/'
