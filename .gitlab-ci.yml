@@ -1,0 +1,9 @@
+# Main GitLab CI/CD configuration
+# Simple setup for NYC Data Wrangling project
+
+include:
+  - local: .gitlab/ci/test_data_quality.yml
+  - local: .gitlab/ci/test_libs_daw.yml
+
+stages:
+  - test

@@ -1,6 +1,13 @@
-data
+data/*.csv
 .DS_Store
 .venv
 .ipynb_checkpoints/
 mydb.duckdb
 __pycache__/
+
+# Testing and coverage artifacts (legacy - now in artifacts/)
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.pytest_cache/
