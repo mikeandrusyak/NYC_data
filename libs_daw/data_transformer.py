@@ -147,6 +147,10 @@ class DataTransformer:
                 print(df_mapped['borough'].value_counts().to_dict())
         
         return df_mapped
+    
+    def map_zip_to_neighborhood(self, df: pd.DataFrame, 
+                               zip_to_neighborhood: Dict[str, str],
+                               zip_column: str = 'incident_zip') -> pd.DataFrame:
         """
         Map ZIP codes to neighborhoods.
         

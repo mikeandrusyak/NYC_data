@@ -222,7 +222,8 @@ class TestTransformData:
                 )
                 mock_transform_rent.assert_called_once_with(
                     pipeline_intermediate_data['cleaned_rent'],
-                    pipeline_test_data['manual_mapping']
+                    pipeline_test_data['manual_mapping'],
+                    pipeline_test_data['uhf_mapping']
                 )
 
 
