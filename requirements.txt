@@ -34,6 +34,7 @@ nest-asyncio==1.6.0
 numpy==2.3.3
 packaging==25.0
 pandas==2.3.2
+geopandas==1.1.1
 parso==0.8.5
 pexpect==4.9.0
 pillow==11.3.0
@@ -43,6 +44,8 @@ prompt_toolkit==3.0.52
 psutil==7.1.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
+pytest==9.0.1
+pytest-cov==7.0.0
 Pygments==2.19.2
 pyparsing==3.2.5
 pytest==9.0.1

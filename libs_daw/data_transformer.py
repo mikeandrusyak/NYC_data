@@ -87,9 +87,66 @@ class DataTransformer:
         print(f"Created mapping for {len(zip_to_neighborhood)} ZIP codes to neighborhoods")
         return zip_to_neighborhood
     
-    def map_zip_to_neighborhood(self, df: pd.DataFrame, 
-                               zip_to_neighborhood: Dict[str, str],
-                               zip_column: str = 'incident_zip') -> pd.DataFrame:
+    def create_neighborhood_to_borough_mapping(self, uhf_data: Dict[str, Any]) -> Dict[str, str]:
+        """
+        Create neighborhood to borough mapping dictionary from UHF data.
+        
+        Args:
+            uhf_data (Dict): UHF data containing borough and neighborhood information
+            
+        Returns:
+            Dict[str, str]: Neighborhood to borough mapping
+        """
+        neighborhood_to_borough = {}
+
+        for borough, neighborhoods in uhf_data.items():
+            for neighborhood_info in neighborhoods:
+                neighborhood_name = neighborhood_info['neighborhood']
+                neighborhood_to_borough[neighborhood_name] = borough
+
+        print(f"Created borough mapping for {len(neighborhood_to_borough)} neighborhoods")
+        return neighborhood_to_borough
+    
+    def apply_borough_mapping(self, df: pd.DataFrame, 
+                             neighborhood_to_borough: Dict[str, str],
+                             neighborhood_column: str = 'neighborhood') -> pd.DataFrame:
+        """
+        Apply borough mapping to neighborhoods based on UHF data.
+        
+        Args:
+            df (pd.DataFrame): DataFrame with neighborhood column
+            neighborhood_to_borough (Dict): Neighborhood to borough mapping from UHF data
+            neighborhood_column (str): Name of neighborhood column
+            
+        Returns:
+            pd.DataFrame: DataFrame with corrected borough assignments
+        """
+        df_mapped = df.copy()
+        
+        if neighborhood_column in df_mapped.columns:
+            # Create a new borough column based on UHF mapping
+            df_mapped['borough_from_uhf'] = df_mapped[neighborhood_column].map(neighborhood_to_borough)
+            
+            # Use UHF borough where available, fallback to original borough
+            df_mapped['borough'] = df_mapped['borough_from_uhf'].fillna(df_mapped.get('borough', ''))
+            
+            # Clean up temporary column
+            df_mapped = df_mapped.drop('borough_from_uhf', axis=1)
+            
+            # Report mapping results
+            mapped_count = df_mapped['borough'].notna().sum()
+            total_count = len(df_mapped)
+            
+            print(f"Borough mapping results:")
+            print(f"Records with borough assigned: {mapped_count}")
+            print(f"Records without borough: {total_count - mapped_count}")
+            
+            # Show borough distribution
+            if mapped_count > 0:
+                print("Borough distribution:")
+                print(df_mapped['borough'].value_counts().to_dict())
+        
+        return df_mapped
         """
         Map ZIP codes to neighborhoods.
         
@@ -104,11 +161,21 @@ class DataTransformer:
         df_mapped = df.copy()
         
         if zip_column in df_mapped.columns:
-            # Convert ZIP codes to string format
-            df_mapped['incident_zip_str'] = (
-                df_mapped[zip_column].fillna(0).astype(int).astype(str).str.zfill(5)
-            )
-            df_mapped.loc[df_mapped[zip_column].isna(), 'incident_zip_str'] = None
+            # Convert ZIP codes to string format, handling various data types
+            def safe_zip_conversion(x):
+                if pd.isna(x):
+                    return None
+                try:
+                    # Try to convert to int first, then to string with zero padding
+                    return str(int(float(x))).zfill(5)
+                except (ValueError, TypeError):
+                    # If conversion fails, try to use as string directly
+                    try:
+                        return str(x).zfill(5) if str(x).isdigit() else None
+                    except:
+                        return None
+            
+            df_mapped['incident_zip_str'] = df_mapped[zip_column].apply(safe_zip_conversion)
 
             # Map to neighborhoods
             df_mapped['neighborhood'] = df_mapped['incident_zip_str'].map(zip_to_neighborhood)
@@ -268,16 +335,23 @@ class DataTransformer:
         # Map ZIP codes to neighborhoods
         df_transformed = self.map_zip_to_neighborhood(df_transformed, zip_to_neighborhood)
         
+        # Create neighborhood to borough mapping from UHF data
+        neighborhood_to_borough = self.create_neighborhood_to_borough_mapping(uhf_data)
+        
+        # Apply correct borough mapping based on UHF data
+        df_transformed = self.apply_borough_mapping(df_transformed, neighborhood_to_borough)
+        
         print("NYC 311 data transformation completed!")
         return df_transformed
     
-    def transform_rent_data(self, df: pd.DataFrame, manual_map: Dict[str, str]) -> pd.DataFrame:
+    def transform_rent_data(self, df: pd.DataFrame, manual_map: Dict[str, str], uhf_data: Dict[str, Any] = None) -> pd.DataFrame:
         """
         Complete transformation pipeline for rent data.
         
         Args:
             df (pd.DataFrame): Cleaned rent DataFrame
             manual_map (Dict): Manual area to neighborhood mapping
+            uhf_data (Dict): UHF mapping data for borough assignment
             
         Returns:
             pd.DataFrame: Transformed rent DataFrame
@@ -286,6 +360,11 @@ class DataTransformer:
         
         # Map areas to neighborhoods
         df_transformed = self.map_area_to_neighborhood(df, manual_map)
+        
+        # If UHF data is provided, apply borough mapping
+        if uhf_data is not None:
+            neighborhood_to_borough = self.create_neighborhood_to_borough_mapping(uhf_data)
+            df_transformed = self.apply_borough_mapping(df_transformed, neighborhood_to_borough)
         
         print("Rent data transformation completed!")
         return df_transformed

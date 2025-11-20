@@ -101,9 +101,9 @@ class NYCDataPipeline:
             df_nyc_311_cleaned, uhf_data
         )
 
-        # Transform median rent data
+        # Transform median rent data (now with UHF data for borough mapping)
         df_median_rent_transformed = self.transformer.transform_rent_data(
-            df_median_rent_cleaned, manual_map
+            df_median_rent_cleaned, manual_map, uhf_data
         )
 
         return df_nyc_311_transformed, df_median_rent_transformed
