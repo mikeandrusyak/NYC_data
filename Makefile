@@ -1,7 +1,8 @@
 PYTHON_VERSION := 3.12.2
 VENV_DIR := .venv
-REQUIREMENTS := requirements.txt
-
+DAW := .venv/bin/daw-run
+URL_STREETEASY := "https://cdn-charts.streeteasy.com/rentals/All/medianAskingRent_All.zip"
+OUT_FILE := data/medianAskingRent_All.csv
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows_NT)
 
 
@@ -13,10 +14,12 @@ else ifeq ($(UNAME_S),Darwin)
 	OS := mac
 	SHELL := /bin/bash
 	SHELLFLAGS := -o pipefail -c
+	RUN_DAW := $(VENV_DIR)/bin/daw-run
 else
 	OS := windows
 	SHELL := powershell.exe
 	SHELLFLAGS := -NoProfile -ExecutionPolicy Bypass -Command
+	RUN_DAW := $(VENV_DIR)\Scripts\daw-run
 endif
 
 ifeq ($(OS), windows)
@@ -48,9 +51,17 @@ venv: install-python-version
 install: venv
 	Write-Host "Installiere Dependencies...";
 	$(VENV_DIR)\Scripts\python.exe -m pip install --upgrade pip
-	$(VENV_DIR)\Scripts\pip install -r $(REQUIREMENTS)
+	$(VENV_DIR)\Scripts\python.exe -m pip install -e .[dev]
 	Write-Host "Dependencies installiert";
 
+download-streeteasy:
+	@echo "📥 Downloading StreetEasy dataset (Windows)..."
+	@if (!(Test-Path "data")) { mkdir data }
+	@curl -L "$(URL_STREETEASY)" -o "$(OUT_FILE)"
+	@echo "✅ Saved to $(OUT_FILE)"
+
+start-up: 
+	$(RUN_DAW)
 
 all-win: install
 	Write-Host "Setup Done"
@@ -104,9 +115,17 @@ venv: install-python-version
 
 install: venv
 	"$(VENV_DIR)/bin/python" -m pip install --upgrade pip
-	"$(VENV_DIR)/bin/pip" install -r "$(REQUIREMENTS)"
+	"$(VENV_DIR)/bin/python" -m pip install -e .[dev]
 	@echo "✅ Dependencies installiert."
 
 all-mac: install
+
+download-streeteasy:
+	mkdir -p data
+	curl -L $(URL_STREETEASY) \
+		-o "$(OUT_FILE)"
+
+start-up:
+	$(RUN_DAW)
 
 endif

@@ -1,4 +1,5 @@
 from typing import Iterable, List, Optional
+from pathlib import Path
 import os   
 
 
@@ -33,7 +34,6 @@ def get_list(
     strip_items: bool = True,
     default: Optional[Iterable[str]] = ()
 ) -> List[str]:
-    """Komma-getrennte Liste parsen. Leere Items werden entfernt."""
     val = get_str(key)
     if val is None:
         return list(default)
@@ -41,6 +41,17 @@ def get_list(
     if strip_items:
         items = [it.strip() for it in items]
     return [it for it in items if it != ""]
+
+def get_path(key: str, default: Optional[str] = None) -> Path:
+    raw = os.getenv(key)
+    val = _clean(raw)
+
+    path_str = val if (val is not None and val != "") else default
+    if path_str is None:
+        raise ValueError(f"Path for '{key}' is missing and no default provided.")
+
+    return Path(path_str).expanduser().resolve()
+
 
 def validate(settings) -> None:
         # Beispielhafte Minimal-Validierungen

@@ -88,3 +88,7 @@ def get_dataset_stratified(months, SETTINGS, SELECT_COLUMNS):
             data_frames.append(df_311_calls)
     df_all_calls = pd.concat(data_frames, ignore_index=True)
     return df_all_calls
+
+def save_dataset(df: pd.DataFrame, filepath: str) -> None:
+    df.to_csv(filepath, index=False)
+    print(f"Dataset saved to {filepath}")
