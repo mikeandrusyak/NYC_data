@@ -13,7 +13,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Default Constants 
 DEFAULT_NYC_311_DATA_URL = "https://data.cityofnewyork.us/resource/erm2-nwe9.csv"
-DEFAULT_MEDIAN_RENT_URL = "https://cdn-charts.streeteasy.com/rentals/All/medianAskingRent_All.zip"
+DEFAULT_MEDIAN_RENT_URL = "https://cdn-charts.streeteasy.com/rentals/All/medianAskingRent_All.zip?_ga=2.11354612.1524313251.1764007778-507322808.1759216457"
 DEFAULT_SINCE_DEFAULT = 2024
 DEFAULT_UNTIL_DEFAULT = 2025
 TARGET_SAMPLE_DEFAULT = 10000
