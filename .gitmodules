@@ -1,0 +1,3 @@
+[submodule "gdv/roberto"]
+	path = gdv/roberto
+	url = https://gitlab.fhnw.ch/ds-data-visualization/ivi_gdv_van/hs25/roberto-fazekas/gdv.git
