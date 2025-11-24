@@ -1,8 +1,6 @@
 PYTHON_VERSION := 3.12.2
 VENV_DIR := .venv
 DAW := .venv/bin/daw-run
-URL_STREETEASY := "https://cdn-charts.streeteasy.com/rentals/All/medianAskingRent_All.zip"
-OUT_FILE := data/medianAskingRent_All.csv
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows_NT)
 
 
@@ -53,12 +51,6 @@ install: venv
 	$(VENV_DIR)\Scripts\python.exe -m pip install --upgrade pip
 	$(VENV_DIR)\Scripts\python.exe -m pip install -e .[dev]
 	Write-Host "Dependencies installiert";
-
-download-streeteasy:
-	@echo "📥 Downloading StreetEasy dataset (Windows)..."
-	@if (!(Test-Path "data")) { mkdir data }
-	@curl -L "$(URL_STREETEASY)" -o "$(OUT_FILE)"
-	@echo "✅ Saved to $(OUT_FILE)"
 
 start-up: 
 	$(RUN_DAW)
@@ -119,11 +111,6 @@ install: venv
 	@echo "✅ Dependencies installiert."
 
 all-mac: install
-
-download-streeteasy:
-	mkdir -p data
-	curl -L $(URL_STREETEASY) \
-		-o "$(OUT_FILE)"
 
 start-up:
 	$(RUN_DAW)
