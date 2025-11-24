@@ -98,7 +98,7 @@ def get_median_rent_data(SETTINGS: Settings) -> None:
     try: 
         resp = requests.get(SETTINGS.URL_MEDIAN_RENT, timeout=SETTINGS.TIMEOUT)
         resp.raise_for_status()
-        outpath = SETTINGS.BASE_DATA_PATH / "median_rent.csv"
+        outpath = SETTINGS.BASE_DATA_PATH / "medianAskingRent_All.csv"
         with open(outpath, "wb") as f:
             f.write(resp.content)
         print(f"Median rent data saved to {outpath}")

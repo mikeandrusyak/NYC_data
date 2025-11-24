@@ -7,16 +7,20 @@ from .config import Settings, get_settings
 from .libs.import_data.fetcher import get_dataset_stratified, save_dataset, get_median_rent_data
 from .libs.import_data.utils import generate_month_ranges, generate_quarters
 
-def cleanup_data_files(data_path: str) -> None:
-    files_to_remove = [
-        "nyc_311_2024_2025_sample.csv",
-        "median_rent.csv"
-    ]
-    for file_name in files_to_remove:
-        file_path = Path(data_path) / file_name
-        if file_path.exists():
-            os.remove(file_path)
-            print(f"Removed existing file: {file_path}")
+def cleanup_data_files(data_path: str, run_import: bool) -> None:
+    source_data = [
+            "nyc_311_2024_2025_sample.csv",
+            "medianAskingRent_All.csv"
+        ]
+    if  run_import:
+        for csv_file in Path(data_path).glob("*.csv"):
+            os.remove(csv_file)
+            print(f"Removed existing CSV file: {csv_file}")
+    else:
+        for csv_file in Path(data_path).glob("*.csv"):
+            if csv_file.name not in source_data:
+                os.remove(csv_file)
+                print(f"Removed existing CSV file: {csv_file}")
 
 def ask_yes_no(prompt: str) -> bool:
     while True:
@@ -63,8 +67,8 @@ def run_daw_pipe() -> None:
 
 def main() -> None:
     SETTINGS: Settings = get_settings()
-    cleanup_data_files(SETTINGS.BASE_DATA_PATH)
-    run_import = ask_yes_no("Do you want to run the import pipeline?")
+    run_import = ask_yes_no("Do you want to refresh source data?")
+    cleanup_data_files(SETTINGS.BASE_DATA_PATH, run_import)
     if run_import:
         run_import_pipe(SETTINGS)
     run_daw_pipe()
