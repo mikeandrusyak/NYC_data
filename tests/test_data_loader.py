@@ -11,7 +11,7 @@ import json
 from unittest.mock import patch, mock_open, MagicMock
 from pathlib import Path
 
-from libs_daw.data_loader import DataLoader
+from daw_nyc.libs.daw.data_loader import DataLoader
 from tests.conftest import (
     create_sample_311_dataframe,
     create_sample_rent_dataframe,

@@ -5,6 +5,7 @@ import random
 import time
 from io import StringIO
 from itertools import chain
+from daw_nyc.config.config import Settings
 
 
 def calc_k_days(start: str, end: str, k_days: int):
@@ -68,12 +69,12 @@ def fetch_month_strat_data(
     df = pd.concat(parts, ignore_index=True).drop_duplicates()
     return df
 
-def get_dataset_stratified(months, SETTINGS, SELECT_COLUMNS):
+def get_dataset_stratified(months: list, SETTINGS: Settings, SELECT_COLUMNS: list) -> pd.DataFrame:
     data_frames = []
     for start, end in chain.from_iterable(months):
         for borough in SETTINGS.GROUP_BY_VALUE:
             df_311_calls = fetch_month_strat_data(
-                    BASE_URL=SETTINGS.BASE_URL,
+                    BASE_URL=SETTINGS.URL_NYC_311,
                     MAX_TIMEOUT=SETTINGS.TIMEOUT,
                     selectors=SELECT_COLUMNS,
                     group_by=SETTINGS.GROUP_BY,
@@ -88,3 +89,18 @@ def get_dataset_stratified(months, SETTINGS, SELECT_COLUMNS):
             data_frames.append(df_311_calls)
     df_all_calls = pd.concat(data_frames, ignore_index=True)
     return df_all_calls
+
+def save_dataset(df: pd.DataFrame, filepath: str) -> None:
+    df.to_csv(filepath, index=False)
+    print(f"Dataset saved to {filepath}")
+
+def get_median_rent_data(SETTINGS: Settings) -> None:
+    try: 
+        resp = requests.get(SETTINGS.URL_MEDIAN_RENT, timeout=SETTINGS.TIMEOUT)
+        resp.raise_for_status()
+        outpath = SETTINGS.BASE_DATA_PATH / "median_rent.csv"
+        with open(outpath, "wb") as f:
+            f.write(resp.content)
+        print(f"Median rent data saved to {outpath}")
+    except Exception as e:
+        logging.error(f"Error fetching median rent data: {e}")

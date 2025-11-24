@@ -4,7 +4,7 @@ import logging
 
 
 # Generates the quarterly data ranges for given years
-def generate_quarters(start_year, end_year) -> list:
+def generate_quarters(start_year: int, end_year: int) -> list:
     quarters = []
     for year in range(start_year, end_year + 1):
         quarters.append((f"{year}-01-01T00:00:00", f"{year}-03-31T23:59:59"))
@@ -31,7 +31,7 @@ def month_ranges(start_ymd: str, end_ymd: str):
 def create_client(BASE_URL: str) -> Socrata:
     return Socrata(BASE_URL, None, timeout=60) 
 
-def generate_month_ranges(quarters):
+def generate_month_ranges(quarters: list) -> list:
     months = []
     for start, end in quarters:
         months.append(month_ranges(start, end))

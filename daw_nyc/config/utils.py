@@ -1,5 +1,6 @@
 from typing import Iterable, List, Optional
-import os   
+from pathlib import Path
+import os
 
 
 def _clean(value: Optional[str]) -> Optional[str]:
@@ -33,7 +34,6 @@ def get_list(
     strip_items: bool = True,
     default: Optional[Iterable[str]] = ()
 ) -> List[str]:
-    """Komma-getrennte Liste parsen. Leere Items werden entfernt."""
     val = get_str(key)
     if val is None:
         return list(default)
@@ -42,17 +42,28 @@ def get_list(
         items = [it.strip() for it in items]
     return [it for it in items if it != ""]
 
-def validate(settings) -> None:
+def get_path(key: str, default: Optional[str] = None) -> Path:
+    raw = os.getenv(key)
+    val = _clean(raw)
+
+    path_str = val if (val is not None and val != "") else default
+    if path_str is None:
+        raise ValueError(f"Path for '{key}' is missing and no default provided.")
+
+    return Path(path_str).expanduser().resolve()
+
+
+def validate(SETTINGS) -> None:
         # Beispielhafte Minimal-Validierungen
-    if not settings.BASE_URL.startswith("http"):
-        raise ValueError("BASE_URL muss mit http/https beginnen.")
-    if settings.DEFAULT_SINCE > settings.DEFAULT_UNTIL:
+    if not SETTINGS.URL_NYC_311.startswith("http") or not SETTINGS.URL_MEDIAN_RENT.startswith("http"):
+        raise ValueError("URL_NYC_311 muss mit http/https beginnen.")
+    if SETTINGS.DEFAULT_SINCE > SETTINGS.DEFAULT_UNTIL:
         raise ValueError("DEFAULT_SINCE darf nicht größer als DEFAULT_UNTIL sein.")
-    if settings.TARGET_SAMPLE <= 0:
+    if SETTINGS.TARGET_SAMPLE <= 0:
         raise ValueError("TARGET_SAMPLE muss > 0 sein.")
-    if settings.MAX_RETRIES < 0:
+    if SETTINGS.MAX_RETRIES < 0:
         raise ValueError("MAX_RETRIES darf nicht negativ sein.")
-    if settings.TIMEOUT <= 0:
+    if SETTINGS.TIMEOUT <= 0:
         raise ValueError("TIMEOUT muss > 0 sein.")
-    if settings.DAYS_IN_MONTH <= 0 or settings.DAYS_IN_MONTH > 31:
+    if SETTINGS.DAYS_IN_MONTH <= 0 or SETTINGS.DAYS_IN_MONTH > 31:
         raise ValueError("DAYS_IN_MONTH sollte zwischen 1 und 31 liegen.")

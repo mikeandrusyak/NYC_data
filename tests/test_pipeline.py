@@ -14,11 +14,11 @@ from io import StringIO
 import tempfile
 import os
 
-from libs_daw.pipeline import NYCDataPipeline
-from libs_daw.data_loader import DataLoader
-from libs_daw.data_cleaner import DataCleaner
-from libs_daw.data_transformer import DataTransformer
-from libs_daw.data_integrator import DataIntegrator
+from daw_nyc.libs.daw.pipeline import NYCDataPipeline
+from daw_nyc.libs.daw.data_loader import DataLoader
+from daw_nyc.libs.daw.data_cleaner import DataCleaner
+from daw_nyc.libs.daw.data_transformer import DataTransformer
+from daw_nyc.libs.daw.data_integrator import DataIntegrator
 
 
 class TestNYCDataPipelineInitialization:

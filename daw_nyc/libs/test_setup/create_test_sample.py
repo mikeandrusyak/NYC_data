@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from libs_tidy.tidying import prepare_date_time
+from .tidying import prepare_date_time
 
 def create_test_sample(
         data_path: str,
