@@ -13,7 +13,7 @@ from unittest.mock import patch, MagicMock
 from io import StringIO
 import sys
 
-from libs_daw.data_cleaner import DataCleaner
+from daw_nyc.libs.daw.data_cleaner import DataCleaner
 
 
 class TestDataCleanerInitialization:

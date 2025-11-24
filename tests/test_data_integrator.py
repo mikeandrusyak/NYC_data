@@ -13,7 +13,7 @@ from io import StringIO
 import tempfile
 import os
 
-from libs_daw.data_integrator import DataIntegrator
+from daw_nyc.libs.daw.data_integrator import DataIntegrator
 
 
 class TestDataIntegratorInitialization:
