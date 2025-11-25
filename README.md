@@ -63,12 +63,22 @@ This will install:
 
 **Option 1: Using the command-line tool**
 ```bash
+# Interactive mode (prompts for import)
 daw-run
+
+# Skip data import, process existing files
+daw-run --skip-import
+
+# Import fresh data and process
+daw-run --import
+
+# Verbose output with detailed progress
+daw-run --import --verbose
 ```
 
 **Option 2: Using Python module execution**
 ```bash
-python -m daw_nyc
+python -m daw_nyc --skip-import
 ```
 
 **Option 3: As a Python library**
@@ -281,6 +291,89 @@ print(settings.BASE_DATA_PATH)  # ../../data
 
 ---
 
+## 🎯 Command-Line Interface
+
+The `daw-run` command provides a flexible CLI for running the data pipeline.
+
+### CLI Options
+
+#### Pipeline Control
+
+```bash
+# Interactive mode - prompts whether to import data
+daw-run
+
+# Run import pipeline + data processing
+daw-run --import
+
+# Skip import, use existing data files
+daw-run --skip-import
+
+# Only import data, skip processing
+daw-run --import-only
+```
+
+#### Data Configuration
+
+```bash
+# Override target sample size per month
+daw-run --import --target-sample 5000
+
+# Custom date range
+daw-run --import --since 2023 --until 2024
+
+# Combine multiple options
+daw-run --import --target-sample 3000 --since 2024 --until 2025
+```
+
+#### Behavior Options
+
+```bash
+# Verbose output with emoji-enhanced progress
+daw-run --import --verbose
+daw-run --import -v
+
+# Quiet mode - minimal output
+daw-run --skip-import --quiet
+daw-run --skip-import -q
+
+# Force re-download even if files exist
+daw-run --import --force
+
+# Show version
+daw-run --version
+
+# Show help
+daw-run --help
+```
+
+#### Complete Reference
+
+| Option | Short | Type | Description |
+|--------|-------|------|-------------|
+| `--import` | - | flag | Run import pipeline to fetch fresh data |
+| `--skip-import` | - | flag | Skip import, use existing data files |
+| `--import-only` | - | flag | Only import, skip data processing |
+| `--target-sample` | - | int | Override target sample size per month |
+| `--since` | - | int | Start year for data collection |
+| `--until` | - | int | End year for data collection |
+| `--verbose` | `-v` | flag | Enable verbose output |
+| `--quiet` | `-q` | flag | Suppress non-essential output |
+| `--force` | - | flag | Force re-download even if files exist |
+| `--version` | - | flag | Show version and exit |
+| `--help` | `-h` | flag | Show help message and exit |
+
+### Output
+
+The pipeline always outputs to:
+```
+data/data_snapshot_for_gdv.csv
+```
+
+This file contains the final integrated dataset ready for analysis and visualization.
+
+---
+
 ## 💻 Usage Examples
 
 > **📚 For comprehensive examples, see [EXAMPLES.md](EXAMPLES.md)**
@@ -288,17 +381,42 @@ print(settings.BASE_DATA_PATH)  # ../../data
 ### Example 1: Run Complete Pipeline
 
 ```bash
-# Interactive mode
+# Interactive mode - you'll be prompted
 daw-run
-
-# You'll be prompted:
-# "Do you want to run the import pipeline? [y/n]:"
-# 
+# Prompt: "Do you want to refresh source data? [y/n]:"
 # YES (y): Downloads fresh data from APIs, then processes it
 # NO (n):  Uses existing CSV files and processes them
+
+# Non-interactive: import fresh data
+daw-run --import
+
+# Non-interactive: use existing data
+daw-run --skip-import
+
+# Import only, no processing
+daw-run --import-only
+
+# Verbose mode with detailed progress
+daw-run --import --verbose
 ```
 
-### Example 2: Import Data Only
+### Example 2: Custom Data Collection
+
+```bash
+# Collect smaller dataset (3000 records per month)
+daw-run --import --target-sample 3000
+
+# Collect data for specific years
+daw-run --import --since 2023 --until 2024
+
+# Combine: custom sample size and date range
+daw-run --import --target-sample 5000 --since 2024 --until 2025 --verbose
+
+# Force re-download even if files exist
+daw-run --import --force
+```
+
+### Example 3: Import Data Programmatically
 
 ```python
 from daw_nyc.libs.import_data import download_rent_data_if_missing
@@ -313,7 +431,7 @@ settings = get_settings()
 df_311 = get_dataset_stratified(months, settings, settings.SELECTED_COLUMNS)
 ```
 
-### Example 3: Use Pipeline in Jupyter Notebook
+### Example 4: Use Pipeline in Jupyter Notebook
 
 ```python
 # In a Jupyter notebook
@@ -341,7 +459,7 @@ print(final.columns)
 final.head()
 ```
 
-### Example 4: Custom Data Processing
+### Example 5: Custom Data Processing
 
 ```python
 from daw_nyc.libs.daw import DataCleaner, DataTransformer
