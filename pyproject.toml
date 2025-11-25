@@ -28,6 +28,7 @@ dependencies = [
   "fastparquet==2024.11.0",
   "requests==2.31.0",
   "python-dotenv==1.2.1",
+  "sodapy==2.2.0"
 ]
 
 [project.optional-dependencies]
