@@ -55,7 +55,7 @@ class Settings:
     DAYS_IN_MONTH: int
     SLEEP_FOR_SECONDS: float
     PLOT_DIST: bool
-    BASE_DATA_PATH: str
+    BASE_DATA_PATH: Path
         
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
@@ -74,7 +74,7 @@ def get_settings() -> Settings:
         DAYS_IN_MONTH=get_int("DAYS_IN_MONTH", default=DAYS_IN_MONTH_DEFAULT),
         SLEEP_FOR_SECONDS=get_float("SLEEP_FOR_SECONDS", default=SLEEP_FOR_SECONDS_DEFAULT),
         PLOT_DIST=get_bool("PLOT_DIST", default=PLOT_DIST_DEFAULT),
-        BASE_DATA_PATH=get_path("BASE_DATA_PATH", default=str(BASE_DATA_PATH))
+        BASE_DATA_PATH=get_path("BASE_DATA_PATH", default=BASE_DATA_PATH)
     )
     validate(settings)
     return settings

@@ -7,17 +7,17 @@ from .config import Settings, get_settings
 from .libs.import_data.fetcher import get_dataset_stratified, save_dataset, get_median_rent_data
 from .libs.import_data.utils import generate_month_ranges, generate_quarters
 
-def cleanup_data_files(data_path: str, run_import: bool) -> None:
+def cleanup_data_files(data_path: Path, run_import: bool) -> None:
     source_data = [
             "nyc_311_2024_2025_sample.csv",
             "medianAskingRent_All.csv"
         ]
     if  run_import:
-        for csv_file in Path(data_path).glob("*.csv"):
+        for csv_file in data_path.glob("*.csv"):
             os.remove(csv_file)
             print(f"Removed existing CSV file: {csv_file}")
     else:
-        for csv_file in Path(data_path).glob("*.csv"):
+        for csv_file in data_path.glob("*.csv"):
             if csv_file.name not in source_data:
                 os.remove(csv_file)
                 print(f"Removed existing CSV file: {csv_file}")
@@ -42,7 +42,7 @@ def run_import_pipe(SETTINGS: Settings) -> None:
     # 3. fetch the data 
     df_all_calls = get_dataset_stratified(months, SETTINGS, SETTINGS.SELECTED_COLUMNS)
     # 4. save the data
-    save_dataset(df_all_calls, SETTINGS.BASE_DATA_PATH + "/nyc_311_2024_2025_sample.csv")
+    save_dataset(df_all_calls, SETTINGS.BASE_DATA_PATH / "nyc_311_2024_2025_sample.csv")
 
 def run_daw_pipe() -> None:
     print("Running DAW pipeline...")
