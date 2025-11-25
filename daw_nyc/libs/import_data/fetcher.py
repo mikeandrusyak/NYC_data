@@ -3,8 +3,9 @@ import pandas as pd
 import logging 
 import random
 import time
-from io import StringIO
+from io import StringIO, BytesIO
 from itertools import chain
+from zipfile import ZipFile
 from daw_nyc.config.config import Settings
 
 
@@ -98,9 +99,19 @@ def get_median_rent_data(SETTINGS: Settings) -> None:
     try: 
         resp = requests.get(SETTINGS.URL_MEDIAN_RENT, timeout=SETTINGS.TIMEOUT)
         resp.raise_for_status()
-        outpath = SETTINGS.BASE_DATA_PATH / "median_rent.csv"
-        with open(outpath, "wb") as f:
-            f.write(resp.content)
+        
+        # Extract ZIP file
+        with ZipFile(BytesIO(resp.content)) as zip_file:
+            # Get the first CSV file from the archive
+            csv_filename = [name for name in zip_file.namelist() if name.endswith('.csv')][0]
+            with zip_file.open(csv_filename) as csv_file:
+                # Read and decode CSV content
+                csv_content = csv_file.read().decode('utf-8')
+                
+        # Save to file
+        outpath = SETTINGS.BASE_DATA_PATH / "medianAskingRent_All.csv"
+        with open(outpath, "w", encoding="utf-8") as f:
+            f.write(csv_content)
         print(f"Median rent data saved to {outpath}")
     except Exception as e:
         logging.error(f"Error fetching median rent data: {e}")

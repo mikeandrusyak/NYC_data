@@ -9,8 +9,14 @@ include = ["daw_nyc"]
 name = "daw_nyc"
 version = "0.1.0"
 description = "Analysis of NYC 311 calls and median rent data for DAW."
-authors = [{name="Roberto", email="roberto.fazekas@students.fhnw.ch"}]
-maintainers = [{name="Roberto", email="roberto.fazekas@students.fhnw.ch"}]
+authors = [
+  {name="Roberto", email="roberto.fazekas@students.fhnw.ch"},
+  {name="Mykhailo Andrusiak", email="mykhailo.andrusiak@students.fhnw.ch"}
+]
+maintainers = [
+  {name="Roberto", email="roberto.fazekas@students.fhnw.ch"},
+  {name="Mykhailo Andrusiak", email="mykhailo.andrusiak@students.fhnw.ch"}
+]
 readme = "README.md"
 requires-python = ">=3.12"
 
