@@ -512,13 +512,13 @@ tests/
 ## 📁 Data Sources
 
 ### NYC 311 Service Requests
-- **Source**: [NYC Open Data](https://data.cityofnewyork.us/)
+- **Source**: [NYC Open Data](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9/about_data)
 - **Dataset**: 311 Service Requests
 - **API**: Socrata SODA API
 - **Fields**: Complaint type, location, dates, resolution status
 
 ### Median Rent Data
-- **Source**: [StreetEasy](https://streeteasy.com/)
+- **Source**: [StreetEasy](https://streeteasy.com/blog/data-dashboard/?utm_source=chatgpt.com)
 - **Dataset**: Median Asking Rent - All
 - **Format**: ZIP archive containing CSV
 - **Granularity**: Monthly, by neighborhood
@@ -570,8 +570,6 @@ pip install dist/daw_nyc-0.1.0-py3-none-any.whl
 
 ## 🤝 Contributing
 
-This is an academic project for the Software Construction course at FHNW. 
-
 ### Team Members
 - Roberto Fazekas (roberto.fazekas@students.fhnw.ch)
 - Mykhailo [Last Name]
@@ -581,15 +579,6 @@ This is an academic project for the Software Construction course at FHNW.
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- NYC Open Data team for providing the 311 API
-- StreetEasy for rent data
-- NYC Health Department for UHF boundary definitions
-- FHNW Software Construction course instructors
 
 ---
 
