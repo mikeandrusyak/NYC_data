@@ -572,7 +572,7 @@ pip install dist/daw_nyc-0.1.0-py3-none-any.whl
 
 ### Team Members
 - Roberto Fazekas (roberto.fazekas@students.fhnw.ch)
-- Mykhailo [Last Name]
+- Mykhailo Andrusiak (mykhailo.andrusiak@students.fhnw.ch)
 
 ---
 
