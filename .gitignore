@@ -1,6 +1,7 @@
 data/*.csv
 .DS_Store
 .venv
+.vscode
 .ipynb_checkpoints/
 mydb.duckdb
 __pycache__/
