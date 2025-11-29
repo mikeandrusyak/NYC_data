@@ -147,10 +147,8 @@ RAW_NYC_data/
 │   ├── nyc_uhf_zipcodes.json
 │   └── manual_map.json
 ├── notebooks/                  # Jupyter notebooks
-├── gdv/                        # Visualization notebooks
+├── gdv/                        # Submodules for gdv module
 ├── pyproject.toml              # Package configuration
-├── requirements.txt            # Legacy requirements
-├── Makefile                    # Development automation
 └── README.md                   # This file
 ```
 
@@ -337,9 +335,6 @@ daw-run --import -v
 daw-run --skip-import --quiet
 daw-run --skip-import -q
 
-# Force re-download even if files exist
-daw-run --import --force
-
 # Show version
 daw-run --version
 
@@ -359,7 +354,6 @@ daw-run --help
 | `--until` | - | int | End year for data collection |
 | `--verbose` | `-v` | flag | Enable verbose output |
 | `--quiet` | `-q` | flag | Suppress non-essential output |
-| `--force` | - | flag | Force re-download even if files exist |
 | `--version` | - | flag | Show version and exit |
 | `--help` | `-h` | flag | Show help message and exit |
 
@@ -411,9 +405,6 @@ daw-run --import --since 2023 --until 2024
 
 # Combine: custom sample size and date range
 daw-run --import --target-sample 5000 --since 2024 --until 2025 --verbose
-
-# Force re-download even if files exist
-daw-run --import --force
 ```
 
 ### Example 3: Import Data Programmatically

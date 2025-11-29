@@ -36,7 +36,7 @@ def ask_yes_no(prompt: str) -> bool:
         print("Please enter only 'y' or 'n'.")
 
 
-def run_import_pipe(settings: Settings, verbose: bool = False, force: bool = False) -> None:
+def run_import_pipe(settings: Settings, verbose: bool = False) -> None:
     """Run import pipeline to fetch fresh data."""
     if verbose:
         print("=" * 60)
@@ -180,11 +180,6 @@ For more information, see: README.md
         action='store_true',
         help='Suppress non-essential output'
     )
-    parser.add_argument(
-        '--force',
-        action='store_true',
-        help='Force re-download even if files exist'
-    )
     
     # Version
     parser.add_argument(
@@ -231,7 +226,7 @@ For more information, see: README.md
     # Execute import pipeline
     if should_import:
         try:
-            run_import_pipe(settings, verbose=args.verbose, force=args.force)
+            run_import_pipe(settings, verbose=args.verbose)
         except Exception as e:
             print(f"\n❌ Import pipeline failed: {e}", file=sys.stderr)
             if args.verbose:
