@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio case study for an NYC 311 data engineering and geospatial analytics project combining ETL, complaint-response analysis, and publication-style visualizations."
+    />
+    <title>NYC 311 Response Inequality | Portfolio Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero hero-single" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Data Engineering • Geospatial Analysis • Static Report Design</p>
+          <h1>NYC 311 Response Inequality</h1>
+          <p class="hero-lead">
+            A portfolio case study built around a modular Python pipeline that collects,
+            cleans, integrates, and visualizes NYC 311 service request data together with
+            neighborhood rent data to surface where city response delays hit hardest.
+          </p>
+          <div class="hero-actions">
+            <button
+              class="button button-secondary hero-toggle"
+              id="show-engineering"
+              type="button"
+              data-panel-target="panel-engineering"
+              aria-pressed="true"
+            >
+              See Engineering
+            </button>
+            <button
+              class="button button-secondary hero-toggle"
+              id="show-storyline"
+              type="button"
+              data-panel-target="panel-storyline"
+              aria-pressed="false"
+            >
+              See Storyline
+            </button>
+            <a class="button button-secondary" href="../gdv/mykhailo/GDV%20report.pdf">Open Project Report</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="tab-panels">
+        <div class="tab-panel is-active" id="panel-engineering">
+          <div class="content-stack">
+              <section class="content-section intro-card" id="overview">
+                <div class="section-heading">
+                  <p class="section-kicker">Overview</p>
+                  <h2>From raw service requests to a portfolio-ready civic analytics story</h2>
+                </div>
+                <div class="two-column-copy">
+                  <p>
+                    This project started as a university data workflow assignment and evolved into a
+                    full case study about public service responsiveness in New York City. The core
+                    system pulls complaint data from the NYC 311 API, standardizes neighborhoods with
+                    UHF mappings, merges the result with rental market data, and exports an analysis-
+                    ready snapshot for downstream geospatial reporting.
+                  </p>
+                  <p>
+                    The final report focuses on a simple question with real civic weight: where do
+                    residents wait longest for issues to be resolved, and which categories of complaints
+                    create the biggest operational pain for the city?
+                  </p>
+                </div>
+              </section>
+
+              <section class="content-section" id="pipeline">
+                <div class="section-heading">
+                  <p class="section-kicker">Method</p>
+                  <h2>A modular ETL pipeline designed for reproducible analysis</h2>
+                </div>
+                <div class="pipeline-grid">
+                  <article class="pipeline-card">
+                    <span>01</span>
+                    <h3>Load</h3>
+                    <p>
+                      Import NYC 311 complaint records, StreetEasy median rent data, UHF ZIP mappings,
+                      and manual corrections for neighborhood normalization.
+                    </p>
+                  </article>
+                  <article class="pipeline-card">
+                    <span>02</span>
+                    <h3>Clean</h3>
+                    <p>
+                      Remove duplicate and incomplete records, standardize date fields, normalize text,
+                      and prepare both datasets for consistent joins.
+                    </p>
+                  </article>
+                  <article class="pipeline-card">
+                    <span>03</span>
+                    <h3>Transform</h3>
+                    <p>
+                      Engineer time features, compute resolution time, map ZIP codes to UHF neighborhoods,
+                      and aggregate complaint patterns by place and period.
+                    </p>
+                  </article>
+                  <article class="pipeline-card">
+                    <span>04</span>
+                    <h3>Integrate</h3>
+                    <p>
+                      Join complaint and rent data into a single export used by the visualization module
+                      and validate merge quality before final output.
+                    </p>
+                  </article>
+                </div>
+                <div class="stack-blocks">
+                  <article>
+                    <h3>Primary stack</h3>
+                    <p>Python 3.12, pandas, numpy, matplotlib, seaborn, requests, pytest, Jupyter.</p>
+                  </article>
+                  <article>
+                    <h3>Delivery format</h3>
+                    <p>Installable package with a CLI entry point plus a separate GDV reporting module.</p>
+                  </article>
+                  <article>
+                    <h3>Output artifact</h3>
+                    <p>The integrated dataset is exported as data/data_snapshot_for_gdv.csv for analysis.</p>
+                  </article>
+                </div>
+              </section>
+
+              <section class="content-section" id="engineering">
+                <div class="section-heading">
+                  <p class="section-kicker">Engineering Quality</p>
+                  <h2>Why this project is stronger than a notebook-only analysis</h2>
+                </div>
+                <div class="engineering-grid">
+                  <article>
+                    <h3>Structured codebase</h3>
+                    <p>
+                      The repository separates data loading, cleaning, transformation, and integration into
+                      dedicated modules instead of collapsing everything into notebook cells.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Command-line execution</h3>
+                    <p>
+                      A package-level CLI makes the workflow reproducible and easier to rerun when the
+                      source data changes.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Testing strategy</h3>
+                    <p>
+                      The test suite covers orchestration, component boundaries, merge behavior, export logic,
+                      and dataset summary expectations.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Design iteration</h3>
+                    <p>
+                      The GDV module documents the evolution from v1 to v3 visualizations, which makes the
+                      visual design process visible instead of incidental.
+                    </p>
+                  </article>
+                </div>
+              </section>
+
+              <section class="content-section" id="project-snapshot">
+                <div class="section-heading">
+                  <p class="section-kicker">Project Snapshot</p>
+                  <h2>At-a-glance engineering footprint</h2>
+                </div>
+                <div class="metric-list metric-list-wide">
+                  <article>
+                    <span class="metric-value">311 + Rent</span>
+                    <span class="metric-label">Integrated civic and housing datasets</span>
+                  </article>
+                  <article>
+                    <span class="metric-value">4-stage ETL</span>
+                    <span class="metric-label">Load, clean, transform, integrate architecture</span>
+                  </article>
+                  <article>
+                    <span class="metric-value">CLI package</span>
+                    <span class="metric-label">Installable workflow with reproducible execution</span>
+                  </article>
+                  <article>
+                    <span class="metric-value">95%+ tests</span>
+                    <span class="metric-label">Coverage across modules and orchestration</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="content-section" id="technical-skills">
+                <div class="section-heading">
+                  <p class="section-kicker">Technical Skills</p>
+                  <h2>Engineering capabilities strengthened in this project</h2>
+                </div>
+                <div class="engineering-grid">
+                  <article>
+                    <h3>API ingestion design</h3>
+                    <p>
+                      Built controlled import flows for NYC Open Data and balanced data volume using
+                      sampling strategies suitable for development and repeated runs.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Data quality engineering</h3>
+                    <p>
+                      Applied null analysis, duplicate handling, date validation, and location cleanup to
+                      turn raw complaint records into reliable analytical input.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Geospatial mapping logic</h3>
+                    <p>
+                      Mapped ZIP codes to UHF neighborhoods and used manual mapping rules to resolve
+                      ambiguous district labels before integration.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Feature engineering</h3>
+                    <p>
+                      Engineered time-based metrics including median resolution duration and complaint
+                      distributions by type and location for decision-ready analysis.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Packaging and CLI UX</h3>
+                    <p>
+                      Structured the workflow as a Python package with a CLI entry point to improve
+                      reproducibility and reduce notebook-only dependency.
+                    </p>
+                  </article>
+                  <article>
+                    <h3>Testing and validation</h3>
+                    <p>
+                      Implemented module and pipeline tests to validate joins, exports, and key
+                      transformation boundaries under realistic data conditions.
+                    </p>
+                  </article>
+                </div>
+              </section>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="panel-storyline" hidden>
+            <section class="content-section visuals-section storyline-section" id="storyline">
+              <div class="section-heading">
+                <p class="section-kicker">Storyline</p>
+                <h2>What NYC 311 data says when visuals and insights are read together</h2>
+              </div>
+              <p class="storyline-intro">
+                This story follows a clear path: first, we map where response times are slowest,
+                then we show which complaint types remain unresolved the longest, and finally we
+                compare high-volume issues with high-impact delays. Together, these visuals reveal
+                not only operational workload, but also inequality in how quickly residents across
+                New York City receive help.
+              </p>
+
+              <article class="story-step story-step-map">
+                <div class="story-text">
+                  <p class="finding-tag">Act 1: Geography of Inequality</p>
+                  <h3>Where you live strongly affects how fast your complaint is resolved</h3>
+                  <p>
+                    The map highlights the top two slowest neighborhoods in each borough. Brooklyn and
+                    Queens contain several zones in the 50 to 70 hour range, while Staten Island is
+                    materially faster. For residents, this means the same issue can be resolved much faster
+                    or slower depending on address.
+                  </p>
+                  <p>
+                    This is the central equity question of the project: city voice is available to all,
+                    but response speed is not uniformly distributed.
+                  </p>
+                </div>
+                <div class="story-figures">
+                  <figure class="gallery-card gallery-card-wide">
+                    <img
+                      src="assets/images/figure-1-resolution-by-neighborhood.png"
+                      class="full-image zoomable"
+                      alt="NYC borough map highlighting the top two slowest neighborhoods per borough by resolution time"
+                    />
+                    <figcaption>
+                      <strong>Figure 1.</strong> Choropleth map with direct labels to surface neighborhood-level response inequality.
+                    </figcaption>
+                  </figure>
+                </div>
+              </article>
+
+              <article class="story-step">
+                <div class="story-text">
+                  <p class="finding-tag">Act 2: The Long Tail of Delay</p>
+                  <h3>Some complaint types take months, not hours</h3>
+                  <p>
+                    The delayed-type charts show extreme outliers: New Tree Request reaches 9.7 months,
+                    while several other categories remain open for multiple months. This is less about one
+                    bad queue and more about cross-department bottlenecks, coordination complexity, and
+                    uneven resource allocation.
+                  </p>
+                  <p>
+                    In practical terms, low-frequency categories can become policy blind spots where issues
+                    accumulate until they become expensive or hazardous.
+                  </p>
+                </div>
+                <div class="story-figures story-figures-double">
+                  <figure class="gallery-card">
+                    <img
+                      src="assets/images/figure-2-top-delayed-complaint-types.png"
+                      class="zoomable"
+                      alt="Horizontal bar chart of complaint types with the longest median resolution time"
+                    />
+                    <figcaption>
+                      <strong>Figure 2.</strong> Delayed categories ranked by median resolution time.
+                    </figcaption>
+                  </figure>
+                  <figure class="gallery-card">
+                    <img
+                      src="assets/images/figure-2-1-top-delayed-complaint-types-legend.png"
+                      class="zoomable"
+                      alt="Alternative delayed complaint types chart with added legend for interpretability"
+                    />
+                    <figcaption>
+                      <strong>Figure 2.1.</strong> Alternate style variant focused on interpretability.
+                    </figcaption>
+                  </figure>
+                </div>
+              </article>
+
+              <article class="story-step">
+                <div class="story-text">
+                  <p class="finding-tag">Act 3: Volume Is Not Urgency</p>
+                  <h3>Common complaints are processed fast, but critical categories wait longer</h3>
+                  <p>
+                    High-volume categories such as Illegal Parking and Noise are handled quickly and create
+                    a visible impression of responsiveness. But a second view reveals a different reality:
+                    health-related categories like UNSANITARY CONDITION and HEAT/HOT WATER remain open much
+                    longer, often for days.
+                  </p>
+                  <p>
+                    The key takeaway is structural: the system appears optimized for repetitive, routinized
+                    tasks, not for vulnerable cases where delay has a higher human cost.
+                  </p>
+                </div>
+                <div class="story-figures story-figures-double">
+                  <figure class="gallery-card">
+                    <img
+                      src="assets/images/variant-a-biggest-pains.png"
+                      class="zoomable"
+                      alt="Bar chart showing complaint volumes colored by resolution time"
+                    />
+                    <figcaption>
+                      <strong>Variant A.</strong> Volume-first perspective with delay encoded by color.
+                    </figcaption>
+                  </figure>
+                  <figure class="gallery-card">
+                    <img
+                      src="assets/images/variant-b-biggest-pains.png"
+                      class="zoomable"
+                      alt="Bubble chart showing complaint counts with bubble size representing resolution time"
+                    />
+                    <figcaption>
+                      <strong>Variant B.</strong> Bubble size makes waiting-time burden easier to compare.
+                    </figcaption>
+                  </figure>
+                </div>
+              </article>
+            </section>
+        </div>
+      </main>
+    </div>
+
+    <div class="lightbox" id="chart-lightbox" aria-hidden="true">
+      <button class="lightbox-close" id="chart-lightbox-close" aria-label="Close enlarged image">
+        Close
+      </button>
+      <img id="chart-lightbox-image" alt="" />
+    </div>
+
+    <script>
+      (function () {
+        const panelButtons = document.querySelectorAll(".hero-toggle");
+        const tabPanels = document.querySelectorAll(".tab-panel");
+
+        function activatePanel(targetId) {
+          panelButtons.forEach((button) => {
+            const isActive = button.dataset.panelTarget === targetId;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+
+          tabPanels.forEach((panel) => {
+            const isActive = panel.id === targetId;
+            panel.classList.toggle("is-active", isActive);
+            panel.hidden = !isActive;
+          });
+        }
+
+        panelButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            activatePanel(button.dataset.panelTarget);
+          });
+        });
+
+        activatePanel("panel-engineering");
+
+        const lightbox = document.getElementById("chart-lightbox");
+        const lightboxImage = document.getElementById("chart-lightbox-image");
+        const closeButton = document.getElementById("chart-lightbox-close");
+        const zoomableImages = document.querySelectorAll(".zoomable");
+
+        function openLightbox(image) {
+          lightboxImage.src = image.src;
+          lightboxImage.alt = image.alt;
+          lightbox.classList.add("is-open");
+          lightbox.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+          lightbox.classList.remove("is-open");
+          lightbox.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          lightboxImage.src = "";
+          lightboxImage.alt = "";
+        }
+
+        zoomableImages.forEach((image) => {
+          image.addEventListener("click", () => openLightbox(image));
+        });
+
+        closeButton.addEventListener("click", closeLightbox);
+
+        lightbox.addEventListener("click", (event) => {
+          if (event.target === lightbox) {
+            closeLightbox();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+            closeLightbox();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
